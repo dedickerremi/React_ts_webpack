@@ -7,8 +7,10 @@ export enum ACTIONS {
     RESET_FAVORITE = 'RESET_FAVORITE'
 }
 
-export type CryptoState = CryptoCurrencyType[];
-
+export type CryptoState = {
+  cryptoCurrencies: CryptoCurrencyType[];
+  totalVolumeUsd: number;
+}
 const CryptoStateContext = createContext<CryptoState | undefined>(undefined);
 
 type Action =
@@ -22,22 +24,35 @@ const CryptoDispatchContext = createContext<CryptoDispatch | undefined>(
 );
 
 function cryptoReducer(state: CryptoState, action: Action): CryptoState {
+  let cryptoCurrencies = [];
+
   switch (action.type) {
+
     case ACTIONS.SET_CRYPTOCURRENCIES:
-        const crypto = action.value.map(elem => {
-            return { ...elem, isFavorite: false }
-        })
-        console.log('onsetlescryptos', crypto)
-      return crypto
+      //
+      cryptoCurrencies = action.value.map(elem => {
+          return { ...elem, isFavorite: false }
+      });
+      //
+      const totalVolumeUsd = cryptoCurrencies.reduce((acc, value) => {     
+        return acc + (Math.round(Number(value.volumeUsd24Hr) * 100) / 100)
+      }, 0)
+      return { ...state, cryptoCurrencies, totalVolumeUsd }
+
     case ACTIONS.TOGGLE_FAVORITE:
-      return state.map(crypto =>
+      //
+      cryptoCurrencies = state.cryptoCurrencies.map(crypto =>
         crypto.id === action.value.id ? { ...crypto, isFavorite: !crypto.isFavorite } : crypto
       );
+      return { ...state, cryptoCurrencies }
+
     case ACTIONS.RESET_FAVORITE:
-      return state.map(crypto => {
-        return { ...crypto }          
-      }
-    );
+      
+      cryptoCurrencies = state.cryptoCurrencies.map(crypto => {
+        return { ...crypto, isFavorite: false }          
+      });
+      return { ...state, cryptoCurrencies }
+
     default:
       throw new Error('Unhandled action');
   }
@@ -48,7 +63,7 @@ export function CryptoContextProvider({
 }: {
   children: React.ReactNode;
 }) {
-  const [state, dispatch] = useReducer(cryptoReducer, []);
+  const [state, dispatch] = useReducer(cryptoReducer, { cryptoCurrencies: [], totalVolumeUsd: 0 });
 
   return (
     <CryptoDispatchContext.Provider value={dispatch}>
@@ -59,13 +74,13 @@ export function CryptoContextProvider({
   );
 }
 
-export function useCryptoState() {
+export function useCryptoState(): CryptoState {
   const state = useContext(CryptoStateContext);
   if (!state) throw new Error('CryptoProvider not found');
   return state;
 }
 
-export function useCryptoDispatch() {
+export function useCryptoDispatch(): CryptoDispatch {
   const dispatch = useContext(CryptoDispatchContext);
   if (!dispatch) throw new Error('CryptoProvider not found');
   return dispatch;
