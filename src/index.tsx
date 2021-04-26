@@ -1,8 +1,12 @@
 import React, { useEffect } from "react";
 import ReactDOM from "react-dom";
-import Home from "./components/Home";
+import CryptoCurrency from "./container/cryptocurrency";
 import { API } from "./constants";
 import { ACTIONS, CryptoContextProvider, useCryptoDispatch } from "./context/CryptoCurrenciesContext";
+
+import './style/global'
+import { GlobalStyle } from "./style/global";
+import { Title } from "./style/generic";
 
 const App = () => {
 
@@ -18,10 +22,12 @@ const App = () => {
   }, [dispatch])
 
   return (
-    <>
-      <h1>DowJones Crypto</h1>
-      <Home />
-    </>
+    <React.Fragment>
+        <GlobalStyle />
+        <Title>Crypto Table</Title>
+        <CryptoCurrency />
+    </React.Fragment>
+    
   );
 };
 

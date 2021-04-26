@@ -24,7 +24,7 @@ const CryptoDispatchContext = createContext<CryptoDispatch | undefined>(
 );
 
 function cryptoReducer(state: CryptoState, action: Action): CryptoState {
-  let cryptoCurrencies = [];
+  let cryptoCurrencies: any = [];
 
   switch (action.type) {
 
@@ -45,7 +45,6 @@ function cryptoReducer(state: CryptoState, action: Action): CryptoState {
         crypto.id === action.value.id ? { ...crypto, isFavorite: !crypto.isFavorite } : crypto
       );
       return { ...state, cryptoCurrencies }
-
     case ACTIONS.RESET_FAVORITE:
       
       cryptoCurrencies = state.cryptoCurrencies.map(crypto => {
