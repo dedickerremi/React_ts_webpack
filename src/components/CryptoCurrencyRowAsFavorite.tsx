@@ -7,9 +7,7 @@ interface Props {
     crypto: CryptoCurrencyType;
 }
 
-const CryptoCurrencyRow: FC<Props> = ({ crypto, }) => {
-
-    const isFavorite = useFavoriteCrypto(crypto)
+const CryptoCurrencyRowAsFavorite: FC<Props> = ({ crypto, }) => {
     const dispatch = useCryptoDispatch()
 
     const handleFavorite = () => {
@@ -22,12 +20,12 @@ const CryptoCurrencyRow: FC<Props> = ({ crypto, }) => {
             <td>{ crypto.rank }</td>
             <td>{ crypto.marketCapUsd }</td>
             <td> 
-                <button onClick={handleFavorite} disabled={isFavorite}>
-                    add on favorite
+                <button onClick={handleFavorite}>
+                    delete from favorite
                 </button>
             </td>
         </tr>
     )
 }
 
-export default CryptoCurrencyRow
+export default CryptoCurrencyRowAsFavorite

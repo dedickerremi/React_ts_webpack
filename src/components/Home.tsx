@@ -1,22 +1,17 @@
 import React, { FC } from 'react';
 import { useCryptoState } from '../context/CryptoCurrenciesContext';
+import CryptoCurrencyList from './CryptoCurrencyTable';
 
-const CryptoCurrencyList: FC = () => {
-    const cryptoCurrencies = useCryptoState()
-    console.log('length', cryptoCurrencies.length);
+const Home: FC = () => {
+    const {cryptoCurrencies} = useCryptoState()
+    const cryptoCurrenciesAsFavorite = cryptoCurrencies && cryptoCurrencies.filter(e => e.isFavorite)
 
     return (
-        <div>
-            Table
-            {
-                cryptoCurrencies.map((elem, i) => {
-
-                    return <p key={`elem-${i}`}> Salut { elem.id }</p>
-                })
-            }
-            Table Fin
-        </div>
+        <>
+            <CryptoCurrencyList cryptoCurrencies={cryptoCurrencies} />
+            <CryptoCurrencyList cryptoCurrencies={cryptoCurrenciesAsFavorite} isFavoriteTable={true} />
+        </>
     )
 }
 
-export default CryptoCurrencyList
+export default Home

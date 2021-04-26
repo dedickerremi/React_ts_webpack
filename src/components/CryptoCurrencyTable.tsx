@@ -1,15 +1,34 @@
-import React, { FC } from 'react';
-import { useCryptoState } from '../context/CryptoCurrenciesContext';
+import React, { FC, useState } from 'react';
+import { ACTIONS, useCryptoDispatch } from '../context/CryptoCurrenciesContext';
+
+import { usePagination } from '../hooks/usePagination';
+import { CryptoCurrencyType } from '../types/CryptoCurrencyTypes';
 import CryptoCurrencyRow from './CryptoCurrencyRow';
+import CryptoCurrencyRowAsFavorite from './CryptoCurrencyRowAsFavorite';
+import { Pagination } from './Pagination';
 
+interface Props {
+    cryptoCurrencies: CryptoCurrencyType[],
+    isFavoriteTable?: boolean
+}
 
+const CryptoCurrencyList: FC<Props> = ({ cryptoCurrencies, isFavoriteTable = false }) => {
+    
+    const [currentPage, setCurrentPage] = useState<number>(1)
+    const [cryptoPerPage, setCryptoPerPage] = useState<number>(20)
+    const dispatch = useCryptoDispatch()
+    const cryptoToDisplay = usePagination(cryptoCurrencies, currentPage, cryptoPerPage);
 
-const CryptoCurrencyList: FC = () => {
-    const cryptoCurrencies = useCryptoState()
-    console.log('length', cryptoCurrencies.length);
+    const handleClick = () => {
+        dispatch({ type: ACTIONS.RESET_FAVORITE });
+    }
 
     return (
-        <div>
+        <>
+            {
+                isFavoriteTable &&
+                    <button onClick={handleClick} disabled={cryptoToDisplay?.length === 0}>Delete them All</button>
+            }
             <table>
                 <thead>
                     <tr>
@@ -21,13 +40,20 @@ const CryptoCurrencyList: FC = () => {
                 </thead>
                 <tbody>
                     {
-                        cryptoCurrencies.map((elem, i) => {
+                        !isFavoriteTable ?
+                        cryptoToDisplay  && cryptoToDisplay.map((elem, i) => {
                             return <CryptoCurrencyRow crypto={elem} key={`elem-${i}`} />
+                        })
+                        :
+                        cryptoToDisplay  && cryptoToDisplay.map((elem, i) => {
+                            return <CryptoCurrencyRowAsFavorite crypto={elem} key={`elem-${i}`} />
                         })
                     }
                 </tbody>
             </table>
-        </div>
+            
+            <Pagination totalItems={cryptoCurrencies.length} itemsPerPage={cryptoPerPage} updatePage={setCurrentPage} />
+        </>
     )
 }
 
