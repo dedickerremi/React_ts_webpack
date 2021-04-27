@@ -42,12 +42,15 @@ const CryptoCurrencyTable: FC<Props> = ({ cryptoCurrencies, isFavoriteTable = fa
                     }
                 </tbody>
             </Table>
-            <Pagination
-                totalItems={cryptoCurrencies.length}
-                itemsPerPage={cryptoPerPage}
-                currentPage={currentPage}
-                updatePage={setCurrentPage}
-            />
+            {
+                cryptoCurrencies.length > 0 && 
+                    <Pagination
+                        totalItems={cryptoCurrencies.length}
+                        itemsPerPage={cryptoPerPage}
+                        currentPage={currentPage}
+                        updatePage={setCurrentPage}
+                    />
+            }
         </>
     )
 }

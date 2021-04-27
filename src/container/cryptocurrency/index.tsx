@@ -10,7 +10,7 @@ const Main = styled.div`
 `;
 
 const Home: FC = () => {
-    const {cryptoCurrencies} = useCryptoState()
+    const {cryptoCurrencies, totalVolumeUsd} = useCryptoState()
     const dispatch = useCryptoDispatch()
     
     const handleClick = () => {
@@ -21,6 +21,8 @@ const Home: FC = () => {
     return (
         <Main>
             <Container>
+                <p>Total VolumeUsd during last 24h:  { totalVolumeUsd.toFixed(2) }$</p>
+                <br />
                 <CryptoTable cryptoCurrencies={cryptoCurrencies} />
             </Container>
             {
