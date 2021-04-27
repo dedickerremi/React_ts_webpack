@@ -8,7 +8,7 @@ import './style/global'
 import { GlobalStyle } from "./style/global";
 import { Title } from "./style/generic";
 
-const App = () => {
+export const App = () => {
 
   const dispatch = useCryptoDispatch();
   

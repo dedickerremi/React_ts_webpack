@@ -28,7 +28,7 @@ export const Table = styled.table`
   `
 
 export const Button = styled.button`
-  background-color: #007ea8; /* Green */
+  background-color: #007ea8;
   border: 1px solid #007ea8;
   color: #fff;
   text-transform: uppercase;

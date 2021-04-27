@@ -1,5 +1,4 @@
 import React, { FC, useState } from 'react';
-import { ACTIONS, useCryptoDispatch } from '../../context/CryptoCurrenciesContext';
 
 import { usePagination } from '../../hooks/usePagination';
 import { CryptoCurrencyType } from '../../types/CryptoCurrencyTypes';
@@ -7,7 +6,6 @@ import CryptoCurrencyRow from './CryptoCurrencyRow';
 import CryptoCurrencyRowAsFavorite from './CryptoCurrencyRowAsFavorite';
 import { Pagination } from './../Pagination';
 import { Table, Th, Tr } from './styled';
-import { Center, Container } from '../../style/generic';
 
 interface Props {
     cryptoCurrencies: CryptoCurrencyType[],
@@ -34,21 +32,21 @@ const CryptoCurrencyTable: FC<Props> = ({ cryptoCurrencies, isFavoriteTable = fa
                 <tbody>
                     {
                         !isFavoriteTable ?
-                        cryptoToDisplay  && cryptoToDisplay.map((elem, i) => {
-                            return <CryptoCurrencyRow crypto={elem} key={`elem-${i}`} />
-                        })
+                            cryptoToDisplay  && cryptoToDisplay.map((elem, i) => {
+                                return <CryptoCurrencyRow crypto={elem} key={`elem-${i}`} />
+                            })
                         :
-                        cryptoToDisplay  && cryptoToDisplay.map((elem, i) => {
-                            return <CryptoCurrencyRowAsFavorite crypto={elem} key={`elem-${i}`} />
-                        })
+                            cryptoToDisplay  && cryptoToDisplay.map((elem, i) => {
+                                return <CryptoCurrencyRowAsFavorite crypto={elem} key={`elem-${i}`} />
+                            })
                     }
                 </tbody>
             </Table>
-            <Pagination 
-            totalItems={cryptoCurrencies.length} 
-            itemsPerPage={cryptoPerPage} 
-            currentPage={currentPage} 
-            updatePage={setCurrentPage} 
+            <Pagination
+                totalItems={cryptoCurrencies.length}
+                itemsPerPage={cryptoPerPage}
+                currentPage={currentPage}
+                updatePage={setCurrentPage}
             />
         </>
     )

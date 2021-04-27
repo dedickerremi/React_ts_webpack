@@ -23,4 +23,5 @@ export const Line = styled.div`
     flex-direction: row;
     justify-content: center;
     overflow-x: auto;
+    margin: 0 10px;
 `
