@@ -25,7 +25,7 @@ export const Table = styled.table`
   width: 100%;
   border-collapse: collapse;
   margin-bottom: 10px;
-  `
+  `;
 
 export const Button = styled.button`
   background-color: #007ea8;
@@ -43,4 +43,4 @@ export const Button = styled.button`
     opacity: 0.4;
     cursor: default;
 }
-`
+`;

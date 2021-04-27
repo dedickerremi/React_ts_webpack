@@ -19,7 +19,7 @@ export const Pagination: FC<Props> = ({ totalItems, itemsPerPage, currentPage, u
         if (currentPage > Math.ceil(totalItems / itemsPerPage)){
             updatePage(currentPage - 1)
         }
-    }, [totalItems])
+    }, [totalItems, itemsPerPage, currentPage, updatePage])
 
     if (pageNumber <= 1) return null;
 
